@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { HofstedeDimensions } from '../types';
-import { dimensionLabels } from '../lib/hofstedeHelpers';
+import { HofstedeDimensions } from '../../types';
+import { dimensionLabels } from '../../lib/hofstedeHelpers';
 
 interface HofstedeBuilderProps {
   hofstedeDimensions: HofstedeDimensions;

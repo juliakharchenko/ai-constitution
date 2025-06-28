@@ -3,10 +3,10 @@
 import React from 'react';
 import { BookOpen } from 'lucide-react';
 import { useConstitutionalAI } from './hooks/useConstitutionalAI';
-import { HelpSection } from './components/HelpSection';
-import { ConstitutionModeSelector } from './components/constitution/ConstitutionModeSelector';
+import { HelpSection } from './components/help/HelpSection';
+import { ConstitutionModeSelector } from './components/selector/ConstitutionModeSelector';
 import { ConstitutionBuilder } from './components/constitution/ConstitutionBuilder';
-import { TestScenario } from './components/TestScenario';
+import { TestScenario } from './components/testScenario/TestScenario';
 import { ResponseResults } from './components/results/ResponseResults';
 import { useTestScenario } from './hooks/useTestScenario';
 

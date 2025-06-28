@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { HofstedeDimensions, QuestionnaireQuestion, QuestionnaireCategory } from '../types';
-import { hofstedeQuestions } from '../data/questions/hofstedeQuestions';
-import { questionnaireCategories } from '../data/questionCategories';
-import { hofstedeToPrinciples } from '../lib/hofstedeHelpers';
+import { HofstedeDimensions, QuestionnaireQuestion,  QuestionnaireCategory} from '@/app/types';
+import { hofstedeQuestions } from '@/app/data/questions/hofstedeQuestions';
+import { questionnaireCategories } from '@/app/data/questionCategories';
+import { hofstedeToPrinciples } from '@/app/lib/hofstedeHelpers';
 
 interface QuestionnaireBuilderProps {
   setConstitution: (constitution: string[]) => void;

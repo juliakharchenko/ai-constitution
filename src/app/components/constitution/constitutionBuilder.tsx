@@ -1,11 +1,13 @@
+'use client';
+
 import React, { useState } from 'react';
-import { constitutionTemplates } from '../../lib/constitutionTemplates';
-import { TemplateBuilder } from '../TemplateBuilder';
-import { HofstedeBuilder } from '../HofstedeBuilder';
-import { QuestionnaireBuilder } from '../QuestionnaireBuilder';
-import { PrinciplesList } from '../PrinciplesList';
+import { constitutionTemplates } from '@/app/lib/constitutionTemplates';
+import { TemplateBuilder } from '../template/TemplateBuilder';
+import { HofstedeBuilder } from '../hofstede/HofstedeBuilder';
+import { QuestionnaireBuilder } from '../questionnaire/QuestionnaireBuilder';
+import { PrinciplesList } from '../principles/PrinciplesList';
 import { CulturalProfileSummary } from '../summary/culturalProfileSummary';
-import { HofstedeDimensions, ConstitutionMode } from '../../types';
+import { HofstedeDimensions, ConstitutionMode } from '@/app/types';
 
 interface ConstitutionBuilderProps {
   constitution: string[];
@@ -42,17 +44,19 @@ export function ConstitutionBuilder({
   const loadTemplate = (templateKey: string) => {
     setSelectedTemplate(templateKey);
     if (templateKey !== 'custom') {
-      setConstitution([...constitutionTemplates[templateKey as keyof typeof constitutionTemplates].principles]);
+      setConstitution([
+        ...constitutionTemplates[templateKey as keyof typeof constitutionTemplates].principles
+      ]);
     }
   };
 
   const dimensionLabels = {
-    powerDistance: { name: "Power Distance", low: "Egalitarian", high: "Hierarchical" },
-    individualismCollectivism: { name: "Individualism vs Collectivism", low: "Collectivist", high: "Individualist" },
-    masculinityFemininity: { name: "Masculinity vs Femininity", low: "Feminine", high: "Masculine" },
-    uncertaintyAvoidance: { name: "Uncertainty Avoidance", low: "Risk-tolerant", high: "Risk-averse" },
-    longTermOrientation: { name: "Long-term Orientation", low: "Traditional", high: "Pragmatic" },
-    indulgenceRestraint: { name: "Indulgence vs Restraint", low: "Restrained", high: "Indulgent" }
+    powerDistance: { name: 'Power Distance', low: 'Egalitarian', high: 'Hierarchical' },
+    individualismCollectivism: { name: 'Individualism vs Collectivism', low: 'Collectivist', high: 'Individualist' },
+    masculinityFemininity: { name: 'Masculinity vs Femininity', low: 'Feminine', high: 'Masculine' },
+    uncertaintyAvoidance: { name: 'Uncertainty Avoidance', low: 'Risk-tolerant', high: 'Risk-averse' },
+    longTermOrientation: { name: 'Long-term Orientation', low: 'Traditional', high: 'Pragmatic' },
+    indulgenceRestraint: { name: 'Indulgence vs Restraint', low: 'Restrained', high: 'Indulgent' }
   };
 
   return (
@@ -121,11 +125,11 @@ export function ConstitutionBuilder({
         onRemove={removePrinciple}
       />
 
-      {/* Cultural Dimensions Summary (for Hofstede and Questionnaire modes) */}
+      {/* Cultural Dimensions Summary */}
       {(constitutionMode === 'hofstede' || constitutionMode === 'questionnaire') && (
-        <CulturalProfileSummary 
-          hofstedeDimensions={hofstedeDimensions} 
-          dimensionLabels={dimensionLabels} 
+        <CulturalProfileSummary
+          hofstedeDimensions={hofstedeDimensions}
+          dimensionLabels={dimensionLabels}
         />
       )}
     </>
