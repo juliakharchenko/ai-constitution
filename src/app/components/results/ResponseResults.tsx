@@ -1,12 +1,28 @@
 import React from 'react';
 import { CheckCircle, AlertCircle, XCircle } from 'lucide-react';
-import { AIResponse } from '../types';
 
-interface ResponseResultsProps {
+interface AIResponse {
+  personality: {
+    icon: React.ComponentType<{ size?: number }>;
+    color: string;
+    name: string;
+    description: string;
+  };
+  alignment: {
+    score: number;
+    supports: string[];
+    conflicts: string[];
+  };
+  response: string;
+}
+
+interface AIResponsesListProps {
   responses: AIResponse[];
 }
 
-export function ResponseResults({ responses }: ResponseResultsProps) {
+export function ResponseResults({ responses }: AIResponsesListProps) {
+  if (responses.length === 0) return null;
+
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">

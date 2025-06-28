@@ -1,23 +1,3 @@
-// import { BookOpen, Zap, Users, Heart, Shield, Brain } from 'lucide-react';
-// import { AIPersonality } from '../types';
-
-// export const aiPersonalities: AIPersonality[] = [
-//   {
-//     name: "Traditionalist AI",
-//     icon: "BookOpen",
-//     color: "bg-amber-100 text-amber-800",
-//     bias: "conservative",
-//     description: "Emphasizes established norms, stability, and proven approaches"
-//   },
-//   {
-//     name: "Progressive AI",
-//     icon: "Zap",
-//     color: "bg-blue-100 text-blue-800",
-//     bias: "progressive",
-//     description: "Favors innovation, social change, and challenging status quo"
-//   },
-//   // ... other personalities
-// ];
 import { BookOpen, Zap, Users, Heart, Shield, Brain } from 'lucide-react';
 import { AIPersonality } from "../types";
 // AI Personalities
