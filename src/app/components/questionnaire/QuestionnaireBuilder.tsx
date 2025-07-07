@@ -95,7 +95,7 @@ export function QuestionnaireBuilder({
         <div className="mb-6">
           <h3 className="text-lg font-medium text-gray-900 mb-2">Choose a Context</h3>
           <p className="text-gray-600 mb-4">
-            Select the life area you'd like to focus on for your cultural assessment:
+            {"Select the life area you'd like to focus on for your cultural assessment:"}
           </p>
         </div>
 

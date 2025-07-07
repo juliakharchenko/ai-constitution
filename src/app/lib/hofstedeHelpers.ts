@@ -4,7 +4,7 @@ import { HofstedeDimensions } from '../types';
 export const dimensionLabels = {
   powerDistance: { name: "Power Distance", low: "Egalitarian", high: "Hierarchical" },
   individualismCollectivism: { name: "Individualism vs Collectivism", low: "Collectivist", high: "Individualist" },
-  masculinityFemininity: { name: "Masculinity vs Femininity", low: "Feminine", high: "Masculine" },
+  masculinityFemininity: { name: "Motivation towards Achievement and Success (MAS)", low: "Low MAS", high: "High Mas" },
   uncertaintyAvoidance: { name: "Uncertainty Avoidance", low: "Risk-tolerant", high: "Risk-averse" },
   longTermOrientation: { name: "Long-term Orientation", low: "Traditional", high: "Pragmatic" },
   indulgenceRestraint: { name: "Indulgence vs Restraint", low: "Restrained", high: "Indulgent" }

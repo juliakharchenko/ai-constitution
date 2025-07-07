@@ -1,5 +1,4 @@
 import { QuestionnaireQuestion } from "../../types";
-import { CategoryInfo} from "../../types";
 
 // Hofstede questionnaire
 export const hofstedeQuestions: QuestionnaireQuestion[] = [

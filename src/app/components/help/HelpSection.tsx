@@ -16,7 +16,7 @@ const dimensions = [
     color: 'text-green-700',
   },
   {
-    title: '⚖️ Masculinity vs Femininity',
+    title: '⚖️ Motivation towards Achievement and Success',
     description:
       'Does society value achievement or care? High: assertiveness. Low: empathy and quality of life.',
     color: 'text-pink-700',
@@ -45,7 +45,7 @@ export function HelpSection() {
   return (
     <div className="mt-10 bg-white rounded-2xl shadow-xl p-8">
       <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-        Hofstede's Cultural Dimensions
+        {"Hofstede's Cultural Dimensions"}
       </h3>
       <div className="grid md:grid-cols-2 gap-6 text-gray-700 text-sm">
         {/* Split into two columns */}

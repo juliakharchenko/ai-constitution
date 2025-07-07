@@ -37,7 +37,7 @@ export function ConstitutionModeSelector({
         >
           <Sliders className="mx-auto mb-2 text-indigo-600" size={24} />
           <h3 className="font-medium">Cultural Dimensions</h3>
-          <p className="text-sm text-gray-600 mt-1">Use sliders based on Hofstede's research</p>
+          <p className="text-sm text-gray-600 mt-1">{"Use sliders based on Hofstede's research"}</p>
         </button>
 
         <button

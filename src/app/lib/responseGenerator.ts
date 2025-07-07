@@ -11,6 +11,17 @@ const getApiKey = (): string => {
 // Initialize Gemini client using the official SDK
 let genAI: GoogleGenerativeAI;
 
+// Define personality interface
+// interface Personality {
+//   traits: string;
+//   description: string;
+// }
+interface Personality {
+  name: string;
+  description: string;
+  traits?: string; // Made optional in case it's not always present
+}
+
 // Simple alignment interface to match your existing types
 export interface AlignmentAnalysis {
   score: number;
@@ -52,7 +63,7 @@ function validateApiKey(): boolean {
 }
 
 export async function generateResponse(
-  personality: any, 
+  personality: Personality, 
   constitution: string[], 
   scenario: string
 ): Promise<string> {
@@ -62,7 +73,8 @@ export async function generateResponse(
   }
 
   const prompt = `
-You are an AI with the following personality traits: ${personality.traits}.
+
+You are an AI with the following personality traits: ${personality.traits || personality.description}.
 Your core behavioral description: ${personality.description}
 
 You must follow these constitutional principles:
@@ -97,16 +109,32 @@ Response:`;
     }
     
     return response.text().trim();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to generate response:', error);
     
     // More specific error handling
-    if (error?.message?.includes('403')) {
-      console.error('Authentication failed - check your GEMINI_API_KEY');
-    } else if (error?.message?.includes('quota')) {
-      console.error('API quota exceeded');
-    } else if (error?.message?.includes('safety')) {
-      console.error('Content blocked by safety filters');
+    // if (error?.message?.includes('403')) {
+    //   console.error('Authentication failed - check your GEMINI_API_KEY');
+    // } else if (error?.message?.includes('quota')) {
+    //   console.error('API quota exceeded');
+    // } else if (error?.message?.includes('safety')) {
+    //   console.error('Content blocked by safety filters');
+    // }
+    if (error instanceof Error) {
+
+      if (error.message.includes('403')) {
+
+        console.error('Authentication failed - check your GEMINI_API_KEY');
+
+      } else if (error.message.includes('quota')) {
+
+        console.error('API quota exceeded');
+
+      } else if (error.message.includes('safety')) {
+
+        console.error('Content blocked by safety filters');
+
+      }
     }
     
     return fallbackResponse(constitution, scenario);
@@ -172,12 +200,12 @@ Guidelines for scoring:
       throw new Error('Empty response from Gemini API during analysis');
     }
     
-    return parseAIAnalysis(aiAnalysis.text(), principles);
-  } catch (error: any) {
+    return parseAIAnalysis(aiAnalysis.text());
+  } catch (error: unknown) {
     console.error('AI alignment analysis failed, using fallback:', error);
     
     // More specific error handling
-    if (error?.message?.includes('403')) {
+    if (error instanceof Error && error.message.includes('403')) {
       console.error('Authentication failed during analysis - check your GEMINI_API_KEY');
     }
     
@@ -185,7 +213,7 @@ Guidelines for scoring:
   }
 }
 
-function parseAIAnalysis(aiResponse: string, principles: string[]): AlignmentAnalysis {
+function parseAIAnalysis(aiResponse: string): AlignmentAnalysis {
   try {
     // Clean the response and extract JSON
     const cleanedResponse = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
@@ -296,7 +324,7 @@ function fallbackHeuristicAnalysis(response: string, principles: string[]): Alig
   for (const principle of principles) {
     const principleText = principle.toLowerCase();
     let principleScore = 0;
-    let principleSupports: string[] = [];
+    const principleSupports: string[] = [];
 
     // Check each positive pattern against this principle
     for (const pattern of analysisPatterns) {
