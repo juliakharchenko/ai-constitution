@@ -6,10 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "expose": "^0.1.4",
     "lucide-react": "^0.517.0",
     "next": "15.3.4",
     "react": "^19.0.0",
