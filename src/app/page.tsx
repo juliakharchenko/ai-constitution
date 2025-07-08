@@ -5,7 +5,7 @@ import { BookOpen } from 'lucide-react';
 import { useConstitutionalAI } from './hooks/useConstitutionalAI';
 import { HelpSection } from './components/help/HelpSection';
 import { ConstitutionModeSelector } from './components/selector/ConstitutionModeSelector';
-import { ConstitutionBuilder } from './components/constitution/ConstitutionBuilder';
+import { ConstitutionBuilder } from './components/constitution/constitutionBuilder';
 import { TestScenario } from './components/testScenario/TestScenario';
 import { ResponseResults } from './components/results/ResponseResults';
 import { useTestScenario } from './hooks/useTestScenario';
