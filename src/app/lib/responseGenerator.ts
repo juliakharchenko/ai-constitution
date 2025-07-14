@@ -12,10 +12,6 @@ const getApiKey = (): string => {
 let genAI: GoogleGenerativeAI;
 
 // Define personality interface
-// interface Personality {
-//   traits: string;
-//   description: string;
-// }
 interface Personality {
   name: string;
   description: string;
