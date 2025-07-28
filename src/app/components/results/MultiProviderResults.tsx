@@ -16,7 +16,7 @@ interface MultiProviderResultsProps {
   alignmentAnalyses?: { [modelId: string]: AlignmentAnalysis };
   onAnalyzeAlignment?: (response: AIResponse) => void;
   // New props for personality mode
-  personalityResponses?: PersonalityResponse[];
+  personalityResponses: PersonalityResponse[];
   showPersonalities?: boolean;
   onToggleMode?: (showPersonalities: boolean) => void;
 }
@@ -24,7 +24,7 @@ interface MultiProviderResultsProps {
 interface PersonalityResponse {
   personality: AIPersonality;
   response: string;
-  alignment: AlignmentAnalysis;
+  alignment?: AlignmentAnalysis;
   processingTime?: number;
   error?: string;
 }
@@ -140,6 +140,83 @@ export const MultiProviderResults: React.FC<MultiProviderResultsProps> = ({
 };
 
 // Component for personality response cards
+// const PersonalityResponseCard: React.FC<{
+//   response: PersonalityResponse;
+//   isExpanded: boolean;
+//   onToggleExpanded: () => void;
+//   formatProcessingTime: (ms: number) => string;
+// }> = ({ response, isExpanded, onToggleExpanded, formatProcessingTime }) => {
+//   const IconComponent = response.personality.icon;
+  
+//   return (
+//     <div
+//       className={`border rounded-lg p-4 transition-all duration-200 ${
+//         response.error ? 'border-red-200 bg-red-50' : 'border-gray-200 hover:border-gray-300'
+//       }`}
+//     >
+//       <div className="flex items-center justify-between mb-3">
+//         <div className="flex items-center space-x-3">
+//           <div className="flex items-center space-x-2">
+//             {response.error ? (
+//               <AlertCircle className="w-5 h-5 text-red-500" />
+//             ) : (
+//               <CheckCircle className="w-5 h-5 text-green-500" />
+//             )}
+//             <div className="flex items-center space-x-2">
+//               <IconComponent className="w-4 h-4" />
+//               <span className="font-medium text-gray-800">
+//                 {response.personality.name}
+//               </span>
+//             </div>
+//           </div>
+//           <span className={`text-xs px-2 py-1 rounded-full ${response.personality.color}`}>
+//             {response.personality.bias}
+//           </span>
+//         </div>
+        
+//         <div className="flex items-center space-x-3">
+//           {response.processingTime && (
+//             <div className="flex items-center space-x-1 text-sm text-gray-500">
+//               <Clock className="w-4 h-4" />
+//               <span>{formatProcessingTime(response.processingTime)}</span>
+//             </div>
+//           )}
+          
+//           {!response.error && (
+//             <button
+//               onClick={onToggleExpanded}
+//               className="flex items-center space-x-1 text-sm text-indigo-600 hover:text-indigo-700"
+//             >
+//               <Eye className="w-4 h-4" />
+//               <span>{isExpanded ? 'Hide' : 'View'}</span>
+//             </button>
+//           )}
+//         </div>
+//       </div>
+
+//       {response.error ? (
+//         <div className="text-red-600 text-sm">
+//           <strong>Error:</strong> {response.error}
+//         </div>
+//       ) : (
+//         <>
+//           <div className={`text-gray-700 ${!isExpanded ? 'line-clamp-3' : ''}`}>
+//             {response.response}
+//           </div>
+          
+//           {isExpanded && (
+//             <div className="mt-4 pt-4 border-t border-gray-200">
+//               <h4 className="text-sm font-medium text-gray-800 mb-3">
+//                 Constitutional Alignment Analysis
+//               </h4>
+//               <AlignmentDisplay analysis={response.alignment} />
+//             </div>
+//           )}
+//         </>
+//       )}
+//     </div>
+//   );
+// };
 const PersonalityResponseCard: React.FC<{
   response: PersonalityResponse;
   isExpanded: boolean;
@@ -147,7 +224,7 @@ const PersonalityResponseCard: React.FC<{
   formatProcessingTime: (ms: number) => string;
 }> = ({ response, isExpanded, onToggleExpanded, formatProcessingTime }) => {
   const IconComponent = response.personality.icon;
-  
+
   return (
     <div
       className={`border rounded-lg p-4 transition-all duration-200 ${
@@ -204,7 +281,7 @@ const PersonalityResponseCard: React.FC<{
             {response.response}
           </div>
           
-          {isExpanded && (
+          {isExpanded && response.alignment && (
             <div className="mt-4 pt-4 border-t border-gray-200">
               <h4 className="text-sm font-medium text-gray-800 mb-3">
                 Constitutional Alignment Analysis
