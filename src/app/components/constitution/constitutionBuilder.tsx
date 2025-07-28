@@ -10,17 +10,6 @@ import { CulturalProfileSummary } from '../summary/culturalProfileSummary';
 import { HofstedeDimensions, ConstitutionMode } from '@/app/types';
 import { PredefinedValue } from '@/app/types/ai';
 
-// interface ConstitutionBuilderProps {
-//   constitution: string[];
-//   setConstitution: (constitution: string[]) => void;
-//   constitutionMode: ConstitutionMode;
-//   selectedTemplate: string;
-//   setSelectedTemplate: (template: string) => void;
-//   hofstedeDimensions: HofstedeDimensions;
-//   setHofstedeDimensions: (dimensions: HofstedeDimensions) => void;
-//   updateHofstedeDimension: (dimension: keyof HofstedeDimensions, value: number) => void;
-//   removePrinciple: (index: number) => void;
-// }
 interface ConstitutionBuilderProps {
   constitution: string[];
   constitutionMode: ConstitutionMode;
