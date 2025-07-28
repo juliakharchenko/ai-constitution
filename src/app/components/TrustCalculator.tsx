@@ -112,13 +112,6 @@ const TrustCalculator: React.FC<TrustCalculatorProps> = ({
   safetyScore,
   weights,
   onWeightChange,
-  trustTemplate,
-  setTrustTemplate,
-  useTrustTemplate,
-  setUseTrustTemplate,
-  safetyDimensions,
-  customCriteria,
-  setCustomCriteria,
 }) => {
   const trustScore = (alignmentScore * weights.alignment + safetyScore * weights.safety) / 100;
 

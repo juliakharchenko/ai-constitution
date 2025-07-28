@@ -1520,12 +1520,11 @@
 
 
 'use client';
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState} from 'react';
 import { BookOpen, Settings, Play, Zap, User, Users, Shield, Scale, AlertCircle, CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 import { useConstitutionalAI } from './hooks/useConstitutionalAI';
 import { useMultiProviderAI } from './hooks/useMultiProviderAI';
 import { HelpSection } from './components/help/HelpSection';
-import { ConstitutionModeSelector } from './components/selector/ConstitutionModeSelector';
 import { ConstitutionBuilder } from './components/constitution/constitutionBuilder';
 import { TestScenario } from './components/testScenario/TestScenario';
 import { testScenarios } from './data/testScenarios';
@@ -1541,17 +1540,11 @@ import type { LucideIcon } from 'lucide-react';
 import { HofstedeDimensions } from './types';
 // import { QuestionnaireCategory } from './types';
 import { QuestionnaireQuestion } from './types';
-import { ConstitutionMode } from './types';
-import { AlignmentAnalysis } from './types/ai';
-import { SafetyTemplate } from './data/safetyData';
-import { SafetyScenarios } from './data/safetyData';
+import type { AlignmentAnalysis } from './types/ai';
 import { QuestionnaireCategory } from './types/ai';
 
 // Define types
 import {
-  // PredefinedValue,
-  AIProvider,
-  APIKeyConfig,
   SelectedModel,
   AIResponse,
   PersonalityResponse,
@@ -1571,24 +1564,24 @@ interface AIPersonality {
 }
 
 // Define Response type to align with PersonalityResponse
-interface Response  {
-  modelId: string;
-  providerName: string;
-  personality: AIPersonality;
-  response: string;
-  alignment: AlignmentAnalysis;
-  safety: {
-    overallScore: number;
-    dimensions: Record<string, { score: number; passes: string[]; concerns: string[] }>;
-  } | null;
-  trust: {
-    score: number;
-    weights: { alignment: number; safety: number };
-    criteria?: { name: string; passed: boolean; details: string[]; explanation: string };
-  } | null;
-  processingTime: number;
-  error?: string;
-}
+// interface Response  {
+//   modelId: string;
+//   providerName: string;
+//   personality: AIPersonality;
+//   response: string;
+//   alignment: AlignmentAnalysis;
+//   safety: {
+//     overallScore: number;
+//     dimensions: Record<string, { score: number; passes: string[]; concerns: string[] }>;
+//   } | null;
+//   trust: {
+//     score: number;
+//     weights: { alignment: number; safety: number };
+//     criteria?: { name: string; passed: boolean; details: string[]; explanation: string };
+//   } | null;
+//   processingTime: number;
+//   error?: string;
+// }
 
 // // Define trustTemplates
 const trustTemplates: Record<string, TrustTemplate> = {
@@ -1637,7 +1630,7 @@ const TrustCalculationExplanation: React.FC = () => {
         <div>
           <h4 className="font-medium text-lg">Alignment Score</h4>
           <p className="text-sm">
-            The alignment score measures how well the AI's response adheres to your defined constitutional principles.
+            The alignment score measures how well the AI&apos;s response adheres to your defined constitutional principles.
             Each principle is evaluated (simulated as a random value between 0.6 and 1.0, adjusted by the alignment weight).
             The final score is a weighted average, influenced by the priority set in the Trust vs. Values slider.
             Click the alignment percentage to see why it passed or failed.
@@ -1655,7 +1648,7 @@ const TrustCalculationExplanation: React.FC = () => {
         <div>
           <h4 className="font-medium text-lg">Trust Score</h4>
           <p className="text-sm">
-            In 'Values + Safety' mode, the trust score combines alignment and safety scores using the weights set in the Trust vs. Values slider:
+            In &apos;Values + Safety&apos; mode, the trust score combines alignment and safety scores using the weights set in the Trust vs. Values slider:
             <br />
             <code className="bg-gray-100 p-1 rounded">Trust Score = (Alignment Score × Alignment Weight + Safety Score × Safety Weight) / 100</code>
             <br />
@@ -1673,7 +1666,7 @@ interface AlignmentAnalysisProps {
   constitution: string[];
 }
 
-const AlignmentAnalysis: React.FC<AlignmentAnalysisProps> = ({ alignment, constitution }) => {
+const AlignmentAnalysis: React.FC<AlignmentAnalysisProps> = ({ alignment }) => {
   const getAlignmentColor = (score: number): string => {
     if (score >= 0.8) return 'text-green-600';
     if (score >= 0.6) return 'text-yellow-600';
@@ -1734,80 +1727,80 @@ const AlignmentAnalysis: React.FC<AlignmentAnalysisProps> = ({ alignment, consti
 };
 
 // SafetyAnalysis component
-interface SafetyResult {
-  score: number;
-  passes: string[];
-  concerns: string[];
-}
+// interface SafetyResult {
+//   score: number;
+//   passes: string[];
+//   concerns: string[];
+// }
 
-interface SafetyAnalysisProps {
-  safetyResults: Record<string, SafetyResult>;
-}
+// interface SafetyAnalysisProps {
+//   safetyResults: Record<string, SafetyResult>;
+// }
 
-const SafetyAnalysis: React.FC<SafetyAnalysisProps> = ({ safetyResults }) => {
-  const getSafetyColor = (score: number): string => {
-    if (score >= 0.8) return 'text-green-600';
-    if (score >= 0.6) return 'text-yellow-600';
-    return 'text-red-600';
-  };
+// const SafetyAnalysis: React.FC<SafetyAnalysisProps> = ({ safetyResults }) => {
+//   const getSafetyColor = (score: number): string => {
+//     if (score >= 0.8) return 'text-green-600';
+//     if (score >= 0.6) return 'text-yellow-600';
+//     return 'text-red-600';
+//   };
 
-  const getSafetyIcon = (score: number): React.JSX.Element => {
-    if (score >= 0.8) return <CheckCircle className="w-5 h-5 text-green-600" />;
-    if (score >= 0.6) return <AlertTriangle className="w-5 h-5 text-yellow-600" />;
-    return <XCircle className="w-5 h-5 text-red-600" />;
-  };
+//   const getSafetyIcon = (score: number): React.JSX.Element => {
+//     if (score >= 0.8) return <CheckCircle className="w-5 h-5 text-green-600" />;
+//     if (score >= 0.6) return <AlertTriangle className="w-5 h-5 text-yellow-600" />;
+//     return <XCircle className="w-5 h-5 text-red-600" />;
+//   };
 
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-6 mt-4">
-      <h3 className="text-xl font-semibold mb-4 flex items-center">
-        <Shield className="mr-2 text-indigo-600" />
-        Safety Analysis
-      </h3>
-      <div className="space-y-4">
-        {Object.entries(safetyResults).map(([dimension, result]) => (
-          <div key={dimension} className="border rounded-lg p-4">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="font-medium capitalize">{dimension}</h4>
-              <div className="flex items-center space-x-2">
-                {getSafetyIcon(result.score)}
-                <span className={`font-bold ${getSafetyColor(result.score)}`}>
-                  {(result.score * 100).toFixed(1)}%
-                </span>
-              </div>
-            </div>
-            <p className="text-sm font-medium mb-3">
-              {result.score >= 0.8
-                ? `This dimension passed with a score of ${(result.score * 100).toFixed(1)}%, indicating strong compliance.`
-                : `This dimension scored ${(result.score * 100).toFixed(1)}%, indicating ${result.score >= 0.6 ? 'moderate' : 'low'} compliance.`}
-            </p>
-            <div className="space-y-2">
-              {result.passes.length > 0 && (
-                <div>
-                  <p className="text-sm text-green-600 font-medium">✓ Strengths:</p>
-                  <ul className="text-sm text-green-700 ml-4 space-y-1">
-                    {result.passes.map((pass, i) => (
-                      <li key={i}>• {pass}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {result.concerns.length > 0 && (
-                <div>
-                  <p className="text-sm text-red-600 font-medium">⚠ Concerns:</p>
-                  <ul className="text-sm text-red-700 ml-4 space-y-1">
-                    {result.concerns.map((concern, i) => (
-                      <li key={i}>• {concern}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="bg-white rounded-lg shadow-sm p-6 mt-4">
+//       <h3 className="text-xl font-semibold mb-4 flex items-center">
+//         <Shield className="mr-2 text-indigo-600" />
+//         Safety Analysis
+//       </h3>
+//       <div className="space-y-4">
+//         {Object.entries(safetyResults).map(([dimension, result]) => (
+//           <div key={dimension} className="border rounded-lg p-4">
+//             <div className="flex items-center justify-between mb-2">
+//               <h4 className="font-medium capitalize">{dimension}</h4>
+//               <div className="flex items-center space-x-2">
+//                 {getSafetyIcon(result.score)}
+//                 <span className={`font-bold ${getSafetyColor(result.score)}`}>
+//                   {(result.score * 100).toFixed(1)}%
+//                 </span>
+//               </div>
+//             </div>
+//             <p className="text-sm font-medium mb-3">
+//               {result.score >= 0.8
+//                 ? `This dimension passed with a score of ${(result.score * 100).toFixed(1)}%, indicating strong compliance.`
+//                 : `This dimension scored ${(result.score * 100).toFixed(1)}%, indicating ${result.score >= 0.6 ? 'moderate' : 'low'} compliance.`}
+//             </p>
+//             <div className="space-y-2">
+//               {result.passes.length > 0 && (
+//                 <div>
+//                   <p className="text-sm text-green-600 font-medium">✓ Strengths:</p>
+//                   <ul className="text-sm text-green-700 ml-4 space-y-1">
+//                     {result.passes.map((pass, i) => (
+//                       <li key={i}>• {pass}</li>
+//                     ))}
+//                   </ul>
+//                 </div>
+//               )}
+//               {result.concerns.length > 0 && (
+//                 <div>
+//                   <p className="text-sm text-red-600 font-medium">⚠ Concerns:</p>
+//                   <ul className="text-sm text-red-700 ml-4 space-y-1">
+//                     {result.concerns.map((concern, i) => (
+//                       <li key={i}>• {concern}</li>
+//                     ))}
+//                   </ul>
+//                 </div>
+//               )}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
 // SafetyPrinciplesBuilder component
 interface SafetyPrinciplesBuilderProps {
@@ -1926,114 +1919,114 @@ const SafetyPrinciplesBuilder: React.FC<SafetyPrinciplesBuilderProps> = ({ safet
 };
 
 // EnhancedResults component
-interface EnhancedResultsProps {
-  responses: PersonalityResponse[];
-  onAnalyze: (response: PersonalityResponse, analysisType: 'alignment' | 'safety') => void;
-  constitution: string[];
-}
+// interface EnhancedResultsProps {
+//   responses: PersonalityResponse[];
+//   onAnalyze: (response: PersonalityResponse, analysisType: 'alignment' | 'safety') => void;
+//   constitution: string[];
+// }
 
-const EnhancedResults: React.FC<EnhancedResultsProps> = ({ responses, onAnalyze, constitution }) => {
-  const [selectedResponse, setSelectedResponse] = useState<{ response: PersonalityResponse; analysisType: 'alignment' | 'safety' | null } | null>(null);
+// const EnhancedResults: React.FC<EnhancedResultsProps> = ({ responses, onAnalyze, constitution }) => {
+//   const [selectedResponse, setSelectedResponse] = useState<{ response: PersonalityResponse; analysisType: 'alignment' | 'safety' | null } | null>(null);
 
-  return (
-    <div className="space-y-6">
-      {responses.map((response, index) => (
-        <div key={index} className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex justify-between items-start mb-4">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800">
-                {response.personality.name} ({response.providerName})
-              </h3>
-              <p className="text-sm text-gray-600">
-                Processing time: {response.processingTime}ms
-              </p>
-            </div>
-            <div className="flex space-x-2">
-              {response.alignment && (
-                <div className="text-center">
-                  <div className="text-sm text-gray-600">Alignment</div>
-                  <button
-                    onClick={() => {
-                      setSelectedResponse({ response, analysisType: 'alignment' });
-                      onAnalyze(response, 'alignment');
-                    }}
-                    className="text-lg font-bold text-indigo-600 hover:underline"
-                  >
-                    {(response.alignment.score * 100).toFixed(1)}%
-                  </button>
-                </div>
-              )}
-              {response.safety && (
-                <div className="text-center">
-                  <div className="text-sm text-gray-600">Safety</div>
-                  <button
-                    onClick={() => {
-                      setSelectedResponse({ response, analysisType: 'safety' });
-                      onAnalyze(response, 'safety');
-                    }}
-                    className="text-lg font-bold text-green-600 hover:underline"
-                  >
-                    {(response.safety.overallScore * 100).toFixed(1)}%
-                  </button>
-                </div>
-              )}
-              {response.trust && (
-                <div className="text-center">
-                  <div className="text-sm text-gray-600">Trust</div>
-                  <div className="text-lg font-bold text-purple-600">
-                    {response.trust.criteria ? (
-                      response.trust.criteria.passed ? 'Passed' : 'Failed'
-                    ) : (
-                      `${(response.trust.score * 100).toFixed(1)}%`
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-4 mb-4">
-            <p className="text-gray-800 whitespace-pre-wrap">{response.response}</p>
-          </div>
-          <button
-            onClick={() => {
-              setSelectedResponse({ response, analysisType: response.safety ? 'safety' : 'alignment' });
-              onAnalyze(response, response.safety ? 'safety' : 'alignment');
-            }}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
-          >
-            Analyze {response.safety ? 'Safety' : 'Values'}
-          </button>
-          {selectedResponse?.response === response && (
-            <div className="mt-4">
-              {selectedResponse.analysisType === 'alignment' && response.alignment && (
-                <AlignmentAnalysis alignment={response.alignment} constitution={constitution} />
-              )}
-              {selectedResponse.analysisType === 'safety' && response.safety && (
-                <SafetyAnalysis safetyResults={response.safety.dimensions} />
-              )}
-              {response.trust?.criteria && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium mb-2">Trust Template Evaluation: {response.trust.criteria.name}</h4>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {response.trust.criteria.explanation}
-                  </p>
-                  <ul className="text-sm space-y-1">
-                    {response.trust.criteria.details.map((detail, i) => (
-                      <li key={i} className="flex items-start space-x-2">
-                        <span className="text-gray-400">•</span>
-                        <span>{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-};
+//   return (
+//     <div className="space-y-6">
+//       {responses.map((response, index) => (
+//         <div key={index} className="bg-white rounded-lg shadow-sm p-6">
+//           <div className="flex justify-between items-start mb-4">
+//             <div>
+//               <h3 className="text-lg font-semibold text-gray-800">
+//                 {response.personality.name} ({response.providerName})
+//               </h3>
+//               <p className="text-sm text-gray-600">
+//                 Processing time: {response.processingTime}ms
+//               </p>
+//             </div>
+//             <div className="flex space-x-2">
+//               {response.alignment && (
+//                 <div className="text-center">
+//                   <div className="text-sm text-gray-600">Alignment</div>
+//                   <button
+//                     onClick={() => {
+//                       setSelectedResponse({ response, analysisType: 'alignment' });
+//                       onAnalyze(response, 'alignment');
+//                     }}
+//                     className="text-lg font-bold text-indigo-600 hover:underline"
+//                   >
+//                     {(response.alignment.score * 100).toFixed(1)}%
+//                   </button>
+//                 </div>
+//               )}
+//               {response.safety && (
+//                 <div className="text-center">
+//                   <div className="text-sm text-gray-600">Safety</div>
+//                   <button
+//                     onClick={() => {
+//                       setSelectedResponse({ response, analysisType: 'safety' });
+//                       onAnalyze(response, 'safety');
+//                     }}
+//                     className="text-lg font-bold text-green-600 hover:underline"
+//                   >
+//                     {(response.safety.overallScore * 100).toFixed(1)}%
+//                   </button>
+//                 </div>
+//               )}
+//               {response.trust && (
+//                 <div className="text-center">
+//                   <div className="text-sm text-gray-600">Trust</div>
+//                   <div className="text-lg font-bold text-purple-600">
+//                     {response.trust.criteria ? (
+//                       response.trust.criteria.passed ? 'Passed' : 'Failed'
+//                     ) : (
+//                       `${(response.trust.score * 100).toFixed(1)}%`
+//                     )}
+//                   </div>
+//                 </div>
+//               )}
+//             </div>
+//           </div>
+//           <div className="bg-gray-50 rounded-lg p-4 mb-4">
+//             <p className="text-gray-800 whitespace-pre-wrap">{response.response}</p>
+//           </div>
+//           <button
+//             onClick={() => {
+//               setSelectedResponse({ response, analysisType: response.safety ? 'safety' : 'alignment' });
+//               onAnalyze(response, response.safety ? 'safety' : 'alignment');
+//             }}
+//             className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+//           >
+//             Analyze {response.safety ? 'Safety' : 'Values'}
+//           </button>
+//           {selectedResponse?.response === response && (
+//             <div className="mt-4">
+//               {selectedResponse.analysisType === 'alignment' && response.alignment && (
+//                 <AlignmentAnalysis alignment={response.alignment} constitution={constitution} />
+//               )}
+//               {selectedResponse.analysisType === 'safety' && response.safety && (
+//                 <SafetyAnalysis safetyResults={response.safety.dimensions} />
+//               )}
+//               {response.trust?.criteria && (
+//                 <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+//                   <h4 className="font-medium mb-2">Trust Template Evaluation: {response.trust.criteria.name}</h4>
+//                   <p className="text-sm text-gray-600 mb-3">
+//                     {response.trust.criteria.explanation}
+//                   </p>
+//                   <ul className="text-sm space-y-1">
+//                     {response.trust.criteria.details.map((detail, i) => (
+//                       <li key={i} className="flex items-start space-x-2">
+//                         <span className="text-gray-400">•</span>
+//                         <span>{detail}</span>
+//                       </li>
+//                     ))}
+//                   </ul>
+//                 </div>
+//               )}
+//             </div>
+//           )}
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
 
 // QuestionnaireBuilder component
 interface QuestionnaireBuilderProps {
@@ -2128,7 +2121,7 @@ const QuestionnaireBuilder: React.FC<QuestionnaireBuilderProps> = ({
           <div className="mb-6">
             <h3 className="text-lg font-medium text-gray-900 mb-2">Choose a Context</h3>
             <p className="text-gray-600 mb-4">
-              Select the life area you'd like to focus on for your cultural assessment:
+              Select the life area you&apos;d like to focus on for your cultural assessment:
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

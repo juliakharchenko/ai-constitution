@@ -1,6 +1,7 @@
 import { ConstitutionMode } from ".";
 import { HofstedeDimensions } from ".";
 import { QuestionnaireQuestion } from ".";
+import type { LucideIcon } from 'lucide-react';
 
 export interface AIProvider {
     id: string;
@@ -124,7 +125,7 @@ export interface AIProvider {
 
   export interface Personality {
     name: string;
-    icon: React.ComponentType<any>;
+    icon: LucideIcon;
     color: string;
     bias: string;
     description: string;

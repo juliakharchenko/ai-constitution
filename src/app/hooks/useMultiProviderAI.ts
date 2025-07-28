@@ -83,7 +83,7 @@ export function useMultiProviderAI(): MultiProviderAI {
         )
       );
       return true;
-    } catch (err) {
+    } catch {
       setError('Failed to add custom model');
       return false;
     }
@@ -146,7 +146,7 @@ export function useMultiProviderAI(): MultiProviderAI {
       case 'google':
         return callGemini(apiKey, modelId, prompt);
       case 'huggingface':
-        return callHuggingFace(apiKey, modelId, prompt, targetModel.supportsSystemPrompts);
+        return callHuggingFace(apiKey, modelId, prompt);
       default:
         throw new Error(`Unsupported provider: ${targetProvider.id}`);
     }
@@ -181,7 +181,7 @@ export function useMultiProviderAI(): MultiProviderAI {
     return getConfiguredProviders().length > 0 && getSelectedModelCount() > 0;
   }, [getConfiguredProviders, getSelectedModelCount]);
 
-  const getProviderName = useCallback((providerId: string, modelId: string) => {
+  const getProviderName = useCallback((providerId: string) => {
     const provider = providers.find((p) => p.id === providerId);
     return provider ? provider.name : 'Unknown Provider';
   }, [providers]);
@@ -298,7 +298,6 @@ async function callHuggingFace(
   apiKey: string,
   modelId: string,
   prompt: string,
-  supportsSystemPrompts?: boolean
 ): Promise<string> {
   const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
     method: 'POST',

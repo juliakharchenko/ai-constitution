@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Bot, Clock, AlertCircle, CheckCircle, BarChart3, Eye, User, Server } from 'lucide-react';
 import { AIResponse, AlignmentAnalysis } from '../../types/ai';
+import type { LucideIcon } from 'lucide-react';
 
-// AIPersonality type definition (based on your existing code)
+// AIPersonality type definition
 interface AIPersonality {
   name: string;
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
   color: string;
   bias: string;
   description: string;
