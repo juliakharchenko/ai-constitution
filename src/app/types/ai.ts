@@ -66,7 +66,8 @@ export interface AIProvider {
     getSelectedModelCount: () => number;
     getSelectedModels: () => SelectedModel[];
     getProviderName: (providerId: string) => string;
-    generateSingleResponse: (prompt: string, modelId: string, providerId: string) => Promise<string>;
+    //generateSingleResponse: (prompt: string, modelId: string, providerId: string) => Promise<string>;
+    generateSingleResponse: (prompt: string, modelId: string) => Promise<string>;
     updateAPIKeys: (keys: APIKeyConfig) => void;
     updateSelectedModels: (models: SelectedModel[]) => void;
     addCustomModel: (providerId: string, modelId: string) => Promise<boolean>; // Update signature

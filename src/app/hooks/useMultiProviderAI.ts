@@ -120,23 +120,101 @@ export function useMultiProviderAI(): MultiProviderAI {
     }
   }, []);
 
+  // const generateSingleResponse = useCallback(async (
+  //   prompt: string,
+  //   modelId: string,
+  //   providerId: string
+  // ): Promise<string> => {
+  //   const targetProvider = providers.find((p) => p.id === providerId);
+  //   const targetModel = targetProvider?.models.find((m) => m.id === modelId);
+
+  //   if (!targetProvider || !targetModel) {
+  //     throw new Error(`Model ${modelId} not found or not selected for provider ${providerId}`);
+  //   }
+
+  //   const apiKey = apiKeys[targetProvider.id];
+  //   if (!apiKey) {
+  //     throw new Error(`No API key configured for ${targetProvider.name}`);
+  //   }
+
+  //   // Call the appropriate provider method directly
+  //   switch (targetProvider.id) {
+  //     case 'openai':
+  //       return callOpenAI(apiKey, modelId, prompt);
+  //     case 'anthropic':
+  //       return callAnthropic(apiKey, modelId, prompt);
+  //     case 'google':
+  //       return callGemini(apiKey, modelId, prompt);
+  //     case 'huggingface':
+  //       return callHuggingFace(apiKey, modelId, prompt);
+  //     default:
+  //       throw new Error(`Unsupported provider: ${targetProvider.id}`);
+  //   }
+  // }, [apiKeys, providers]);
+
+
+  // const generateSingleResponse = useCallback(async (
+  //   prompt: string,
+  //   modelId: string,
+  //   providerId: string
+  // ): Promise<string> => {
+  //   if (!providerId || !modelId) {
+  //     throw new Error(`Invalid input: providerId=${providerId}, modelId=${modelId}`);
+  //   }
+  //   const targetProvider = providers.find((p) => p.id === providerId);
+  //   const targetModel = targetProvider?.models.find((m) => m.id === modelId);
+  
+  //   if (!targetProvider || !targetModel) {
+  //     console.error('Provider or model not found:', { providerId, modelId, providers });
+  //     throw new Error(`Model ${modelId} not found or not selected for provider ${providerId}`);
+  //   }
+  
+  //   const apiKey = apiKeys[targetProvider.id];
+  //   if (!apiKey) {
+  //     throw new Error(`No API key configured for ${targetProvider.name}`);
+  //   }
+  
+  //   // Call the appropriate provider method directly
+  //   switch (targetProvider.id) {
+  //     case 'openai':
+  //       return callOpenAI(apiKey, modelId, prompt);
+  //     case 'anthropic':
+  //       return callAnthropic(apiKey, modelId, prompt);
+  //     case 'google':
+  //       return callGemini(apiKey, modelId, prompt);
+  //     case 'huggingface':
+  //       return callHuggingFace(apiKey, modelId, prompt);
+  //     default:
+  //       throw new Error(`Unsupported provider: ${targetProvider.id}`);
+  //   }
+  // }, [apiKeys, providers]);
+
   const generateSingleResponse = useCallback(async (
     prompt: string,
-    modelId: string,
-    providerId: string
+    modelId: string
   ): Promise<string> => {
-    const targetProvider = providers.find((p) => p.id === providerId);
-    const targetModel = targetProvider?.models.find((m) => m.id === modelId);
-
-    if (!targetProvider || !targetModel) {
-      throw new Error(`Model ${modelId} not found or not selected for provider ${providerId}`);
+    // Find the provider and model for this modelId
+    console.log("generating response");
+    const selectedModel = selectedModels.find(model => model.id === modelId);
+    if (!selectedModel) {
+      throw new Error(`Model ${modelId} not found in selected models`);
     }
-
+  
+    const targetProvider = providers.find(p => p.id === selectedModel.providerId);
+    const targetModel = targetProvider?.models.find(m => m.id === modelId);
+  
+    if (!targetProvider || !targetModel) {
+      throw new Error(`Model ${modelId} not found or not selected, target provider: ${targetProvider?.id || 'none'}`);
+    }
+  
     const apiKey = apiKeys[targetProvider.id];
     if (!apiKey) {
       throw new Error(`No API key configured for ${targetProvider.name}`);
     }
 
+    console.log("we are here");
+    console.log(`target provider: ${targetProvider}`)
+  
     // Call the appropriate provider method directly
     switch (targetProvider.id) {
       case 'openai':
@@ -150,7 +228,8 @@ export function useMultiProviderAI(): MultiProviderAI {
       default:
         throw new Error(`Unsupported provider: ${targetProvider.id}`);
     }
-  }, [apiKeys, providers]);
+  }, [apiKeys, selectedModels, providers]);
+
 
   const getSelectedModels = useCallback(() => {
     const results: { provider: AIProvider; model: AIModel; id: string }[] = [];
@@ -261,6 +340,7 @@ async function callAnthropic(apiKey: string, modelId: string, prompt: string): P
 }
 
 async function callGemini(apiKey: string, modelId: string, prompt: string): Promise<string> {
+  console.log("at gemini");
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: {
@@ -291,6 +371,7 @@ async function callGemini(apiKey: string, modelId: string, prompt: string): Prom
   }
 
   const data = await response.json();
+  console.log(`data.text: ${data.text}`);
   return data.candidates[0]?.content?.parts[0]?.text || 'No response generated';
 }
 
