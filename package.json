@@ -12,12 +12,16 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@huggingface/inference": "^4.6.1",
+    "@supabase/supabase-js": "^2.53.0",
     "expose": "^0.1.4",
     "lucide-react": "^0.517.0",
-    "next": "15.3.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.7.0"
+    "next": "^15.3.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.7.0",
+    "react-tooltip": "^5.29.1",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
