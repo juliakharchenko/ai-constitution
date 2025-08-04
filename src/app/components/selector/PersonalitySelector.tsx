@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { User, Users, Check, LucideIcon } from 'lucide-react';
+import { Users, Check, LucideIcon } from 'lucide-react';
 
 interface PersonalityType {
   name: string;
@@ -48,7 +48,7 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
 
       <div className="mb-4">
         <p className="text-gray-600 mb-4">
-          Select the AI personalities you want to test. Each selected model will respond with each selected personality. Choose 'No Personality' to use only the raw prompt without additional personality traits.
+          Select the AI personalities you want to test. Each selected model will respond with each selected personality. Choose &apos;No Personality&apos; to use only the raw prompt without additional personality traits.
         </p>
         
         <div className="flex items-center justify-between mb-4">

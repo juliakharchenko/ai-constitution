@@ -360,9 +360,13 @@ export async function callHuggingFace(
     // so we don't need to slice the prompt length off.
     return generatedText;
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating with Hugging Face:', error);
     // Provide a more user-friendly error message
-    return `Error: Failed to generate text using Hugging Face. Details: ${error.message || error}`;
+    if (error instanceof Error) {
+      return `Error: Failed to generate text using Hugging Face. Details: ${error.message || error}`;
+    } else {
+      return `Error: Unknown`;
+    }
   }
 }
