@@ -35,12 +35,15 @@ export const MultiProviderResults: React.FC<MultiProviderResultsProps> = ({
   alignmentAnalyses,
   onAnalyzeAlignment,
   personalityResponses = [],
-  showPersonalities = false,
+  showPersonalities = true,
   onToggleMode,
 }) => {
   const [expandedResponse, setExpandedResponse] = useState<string | null>(null);
-
-  const currentResponses = showPersonalities ? personalityResponses : responses;
+  //const currentResponses = showPersonalities ? personalityResponses : responses;
+  console.log(`personality responses: ${personalityResponses}`);
+  console.log(`responses: ${responses}`);
+  //console.log(`current responses: ${currentResponses}`)
+  const currentResponses = personalityResponses;
   const hasResponses = currentResponses.length > 0;
 
   if (!hasResponses) {

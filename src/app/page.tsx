@@ -813,7 +813,7 @@ const UnifiedAIExplorer: React.FC = () => {
       traits: 'positive, hopeful, growth-oriented, solution-focused',
     },
   ];
-  
+
   const generateResponseWithPersonality = async (
     personality: AIPersonality | null,
     constitution: string[],
@@ -868,6 +868,7 @@ Response:` : scenario;
       const startTime = Date.now();
       console.log("generating a response");
       const response = await multiProviderAI.generateSingleResponse(prompt, model.id);
+      console.log(`response: ${response}`);
       const processingTime = Date.now() - startTime;
 
       const alignment = {

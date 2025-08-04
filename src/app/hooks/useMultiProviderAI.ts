@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react';
 import { aiService } from '../services/aiService';
 import type { AIProvider, AIModel, APIKeyConfig, SelectedModel, AIResponse, Personality } from '../types/ai';
+import { InferenceClient } from "@huggingface/inference";
 
 interface MultiProviderAI {
   providers: AIProvider[];
@@ -133,6 +134,8 @@ export function useMultiProviderAI(): MultiProviderAI {
   
     const targetProvider = providers.find(p => p.id === selectedModel.providerId);
     const targetModel = targetProvider?.models.find(m => m.id === modelId);
+
+    console.log(`target model = ${targetModel}, target provider = ${targetProvider}`);
   
     if (!targetProvider || !targetModel) {
       throw new Error(`Model ${modelId} not found or not selected, target provider: ${targetProvider?.id || 'none'}`);
@@ -271,7 +274,7 @@ async function callAnthropic(apiKey: string, modelId: string, prompt: string): P
 }
 
 async function callGemini(apiKey: string, modelId: string, prompt: string): Promise<string> {
-  console.log("at gemini");
+  console.log("at gemini we test");
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: {
@@ -302,42 +305,122 @@ async function callGemini(apiKey: string, modelId: string, prompt: string): Prom
   }
 
   const data = await response.json();
-  console.log(`data.text: ${data.text}`);
+  console.log(`data text: ${data.candidates[0].content.parts[0].text}`);
   return data.candidates[0]?.content?.parts[0]?.text || 'No response generated';
 }
 
-async function callHuggingFace(
+// async function callHuggingFace(
+//   apiKey: string,
+//   modelId: string,
+//   prompt: string,
+// ): Promise<string> {
+//   const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
+//     method: 'POST',
+//     headers: {
+//       'Authorization': `Bearer ${apiKey}`,
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       inputs: prompt,
+//       parameters: {
+//         max_new_tokens: 512,
+//         temperature: 0.7,
+//         top_p: 0.9,
+//         do_sample: true,
+//       },
+//     }),
+//   });
+
+//   if (!response.ok) {
+//     const errorData = await response.json().catch(() => ({}));
+//     throw new Error(`Hugging Face API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
+//   }
+
+//   const data = await response.json();
+
+//   if (Array.isArray(data) && data[0]?.generated_text) {
+//     return data[0].generated_text;
+//   }
+
+//   throw new Error('Unexpected response format from Hugging Face');
+// }
+
+
+// async function callHuggingFace( apiKey: string,
+//    modelId: string,
+//    prompt: string): Promise<string> {
+//   console.log(`model id: ${modelId}`)
+//   const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
+//     method: 'POST',
+//     headers: {
+//       Authorization: `Bearer ${apiKey}`,
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ inputs: prompt }),
+//   });
+
+//   if (!response.ok) {
+//     throw new Error(`Hugging Face API error: ${response.statusText}`);
+//   }
+
+//   const data = await response.json();
+//   return data[0]?.generated_text || 'No response generated.';
+// }
+
+export async function callHuggingFace(
   apiKey: string,
   modelId: string,
   prompt: string,
+  maxTokens: number = 256 // Added maxTokens as an optional parameter
 ): Promise<string> {
-  const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      inputs: prompt,
+  try {
+    // Validate inputs
+    if (!modelId || !prompt) {
+      throw new Error('Model ID and prompt are required.');
+    }
+
+    if (!apiKey) {
+      throw new Error('Hugging Face API key is not configured.');
+    }
+
+    // Initialize the InferenceClient with the provided API key
+    const client = new InferenceClient(apiKey);
+
+    // Prepare messages array for chatCompletion, assuming the prompt is a user message
+    const messages = [
+      {
+        role: "user",
+        content: prompt,
+      },
+    ];
+
+    // Call the chatCompletion method using the InferenceClient
+    const chatCompletion = await client.chatCompletion({
+      model: modelId,
+      messages: messages,
       parameters: {
-        max_new_tokens: 512,
+        max_new_tokens: maxTokens,
         temperature: 0.7,
-        top_p: 0.9,
+        top_p: 0.95,
         do_sample: true,
       },
-    }),
-  });
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(`Hugging Face API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
+    // Extract the generated text from the response
+    // The chatCompletion response structure is chatCompletion.choices[0].message.content
+    if (!chatCompletion || !chatCompletion.choices || chatCompletion.choices.length === 0 || !chatCompletion.choices[0].message || !chatCompletion.choices[0].message.content) {
+      throw new Error('Unexpected response format from Hugging Face chatCompletion.');
+    }
+
+    const generatedText = chatCompletion.choices[0].message.content;
+
+    // The chatCompletion typically returns only the generated response,
+    // so we don't need to slice the prompt length off.
+    return generatedText;
+
+  } catch (error: any) {
+    console.error('Error generating with Hugging Face:', error);
+    // Provide a more user-friendly error message
+    return `Error: Failed to generate text using Hugging Face. Details: ${error.message || error}`;
   }
-
-  const data = await response.json();
-
-  if (Array.isArray(data) && data[0]?.generated_text) {
-    return data[0].generated_text;
-  }
-
-  throw new Error('Unexpected response format from Hugging Face');
 }
