@@ -85,7 +85,7 @@ export const MultiProviderResults: React.FC<MultiProviderResultsProps> = ({
             <div className="flex items-center space-x-2">
               <Server className={`w-4 h-4 ${!showPersonalities ? 'text-indigo-600' : 'text-gray-400'}`} />
               <span className={`text-sm ${!showPersonalities ? 'text-indigo-600 font-medium' : 'text-gray-500'}`}>
-                Providers
+                Hide Responses
               </span>
             </div>
             <button
@@ -103,7 +103,7 @@ export const MultiProviderResults: React.FC<MultiProviderResultsProps> = ({
             <div className="flex items-center space-x-2">
               <User className={`w-4 h-4 ${showPersonalities ? 'text-indigo-600' : 'text-gray-400'}`} />
               <span className={`text-sm ${showPersonalities ? 'text-indigo-600 font-medium' : 'text-gray-500'}`}>
-                Personalities
+                Show Responses
               </span>
             </div>
           </div>
