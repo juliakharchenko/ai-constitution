@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { HofstedeDimensions, ConstitutionMode } from '../types';
 import { hofstedeToPrinciples } from '../lib/hofstedeHelpers';
+import { PredefinedValue } from '../types/ai';
 
 export const useConstitutionalAI = () => {
   const [constitution, setConstitution] = useState<string[]>([
@@ -33,6 +34,12 @@ export const useConstitutionalAI = () => {
     setConstitution(constitution.filter((_, i) => i !== index));
   };
 
+  // Define predefinedValues
+  const predefinedValues: PredefinedValue[] = [
+    { name: 'Default', principles: ['Respect for all individuals', 'Promote fairness'] },
+    // Add more predefined values as needed
+  ];
+
   return {
     constitution,
     setConstitution,
@@ -43,6 +50,7 @@ export const useConstitutionalAI = () => {
     hofstedeDimensions,
     setHofstedeDimensions,
     updateHofstedeDimension,
-    removePrinciple
+    removePrinciple,
+    predefinedValues,
   };
 };

@@ -8,16 +8,19 @@ import { QuestionnaireBuilder } from '../questionnaire/QuestionnaireBuilder';
 import { PrinciplesList } from '../principles/PrinciplesList';
 import { CulturalProfileSummary } from '../summary/culturalProfileSummary';
 import { HofstedeDimensions, ConstitutionMode } from '@/app/types';
+import { PredefinedValue } from '@/app/types/ai';
 
 interface ConstitutionBuilderProps {
   constitution: string[];
-  setConstitution: (constitution: string[]) => void;
   constitutionMode: ConstitutionMode;
+  setConstitution: (constitution: string[]) => void;
+  setConstitutionMode: (mode: ConstitutionMode) => void; // Add this
   selectedTemplate: string;
   setSelectedTemplate: (template: string) => void;
   hofstedeDimensions: HofstedeDimensions;
   setHofstedeDimensions: (dimensions: HofstedeDimensions) => void;
   updateHofstedeDimension: (dimension: keyof HofstedeDimensions, value: number) => void;
+  predefinedValues: PredefinedValue[];
   removePrinciple: (index: number) => void;
 }
 

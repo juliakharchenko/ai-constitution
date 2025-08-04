@@ -12,7 +12,7 @@
       title: 'Workplace',
       description: 'How you approach work relationships, hierarchy, and professional environments',
       icon: '💼',
-      questions: hofstedeQuestions // your original questions
+      questions: hofstedeQuestions // original questions
     },
     {
       id: 'home',
