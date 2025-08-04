@@ -309,64 +309,6 @@ async function callGemini(apiKey: string, modelId: string, prompt: string): Prom
   return data.candidates[0]?.content?.parts[0]?.text || 'No response generated';
 }
 
-// async function callHuggingFace(
-//   apiKey: string,
-//   modelId: string,
-//   prompt: string,
-// ): Promise<string> {
-//   const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
-//     method: 'POST',
-//     headers: {
-//       'Authorization': `Bearer ${apiKey}`,
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       inputs: prompt,
-//       parameters: {
-//         max_new_tokens: 512,
-//         temperature: 0.7,
-//         top_p: 0.9,
-//         do_sample: true,
-//       },
-//     }),
-//   });
-
-//   if (!response.ok) {
-//     const errorData = await response.json().catch(() => ({}));
-//     throw new Error(`Hugging Face API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
-//   }
-
-//   const data = await response.json();
-
-//   if (Array.isArray(data) && data[0]?.generated_text) {
-//     return data[0].generated_text;
-//   }
-
-//   throw new Error('Unexpected response format from Hugging Face');
-// }
-
-
-// async function callHuggingFace( apiKey: string,
-//    modelId: string,
-//    prompt: string): Promise<string> {
-//   console.log(`model id: ${modelId}`)
-//   const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
-//     method: 'POST',
-//     headers: {
-//       Authorization: `Bearer ${apiKey}`,
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ inputs: prompt }),
-//   });
-
-//   if (!response.ok) {
-//     throw new Error(`Hugging Face API error: ${response.statusText}`);
-//   }
-
-//   const data = await response.json();
-//   return data[0]?.generated_text || 'No response generated.';
-// }
-
 export async function callHuggingFace(
   apiKey: string,
   modelId: string,
