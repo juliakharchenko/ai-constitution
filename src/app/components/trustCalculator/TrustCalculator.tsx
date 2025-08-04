@@ -38,6 +38,10 @@ const TrustCalculator: React.FC<TrustCalculatorProps> = ({
         <Scale className="mr-2 text-indigo-600" />
         Trust Assessment
       </h3>
+
+      <h2>
+      Indicate how you prioritize user values versus trust. Use the sliding scale to show whether you place greater importance on aligning with user values or maintaining trust (or favor both equally), and your results will adjust accordingly.
+      </h2>
       
       <div className="space-y-4">
         {/* Weight Controls */}
