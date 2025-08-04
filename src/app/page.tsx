@@ -1111,7 +1111,7 @@
 
 'use client';
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Settings, Play, Zap, User, Users, Shield, Scale, AlertCircle, CheckCircle, AlertTriangle, XCircle, Info } from 'lucide-react';
+import { BookOpen, Settings, Play, Zap, User, Users, Shield, Scale, AlertCircle, Info } from 'lucide-react';
 import { useConstitutionalAI } from './hooks/useConstitutionalAI';
 import { useMultiProviderAI } from './hooks/useMultiProviderAI';
 import { HelpSection } from './components/help/HelpSection';
@@ -1158,7 +1158,7 @@ const TrustCalculationExplanation: React.FC = () => {
         <div>
           <h4 className="font-medium text-lg">Alignment Score</h4>
           <p className="text-sm">
-            The alignment score measures how well the AI's response adheres to your defined constitutional principles.
+            The alignment score measures how well the AI&apos;s response adheres to your defined constitutional principles.
             Each principle is evaluated and scored based on the response content.
             The final score is a weighted average, influenced by the priority set in the Trust vs. Values slider.
             <span className="text-indigo-600 cursor-pointer" data-tooltip-id="alignment-score">
@@ -1171,7 +1171,7 @@ const TrustCalculationExplanation: React.FC = () => {
           <h4 className="font-medium text-lg">Safety Score</h4>
           <p className="text-sm">
             The safety score evaluates adherence to selected or custom safety principles.
-            Each dimension is scored based on the response's compliance with safety criteria.
+            Each dimension is scored based on the response&apos;s compliance with safety criteria.
             The overall score is a weighted average, influenced by the Trust vs. Values slider.
             <span className="text-indigo-600 cursor-pointer" data-tooltip-id="safety-score">
               {' '}Click the score for details.
@@ -1183,7 +1183,7 @@ const TrustCalculationExplanation: React.FC = () => {
           <h4 className="font-medium text-lg">Trust Score</h4>
           <p className="text-sm">
             The trust score combines alignment and safety scores to provide an overall measure of reliability.
-            In 'Values + Safety' mode, it uses the formula:
+            In &apos;Values + Safety&apos; mode, it uses the formula:
             <br />
             <code className="bg-gray-100 p-1 rounded">Trust Score = (Alignment Score × Alignment Weight + Safety Score × Safety Weight) / 100</code>
             <br />
@@ -2290,7 +2290,7 @@ const QuestionnaireBuilder: React.FC<QuestionnaireBuilderProps> = ({
         <div className="mb-6">
           <h3 className="text-lg font-medium text-gray-900 mb-2">Choose a Context</h3>
           <p className="text-gray-600 mb-4">
-            Select the life area you'd like to focus on for your cultural assessment:
+            Select the life area you&apos;d like to focus on for your cultural assessment:
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

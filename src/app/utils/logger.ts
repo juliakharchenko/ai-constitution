@@ -58,10 +58,10 @@
 'use client';
 
 import { v4 as uuidv4 } from 'uuid';
-import { LogEntry } from '../types/logging';
+import { LogEntry, LogDetails } from '../types/logging';
 
 // Log interaction events
-export const logInteraction = async (event: string, details: any): Promise<void> => {
+export const logInteraction = async (event: string, details: LogDetails): Promise<void> => {
   try {
     const logEntry: LogEntry = {
       event,

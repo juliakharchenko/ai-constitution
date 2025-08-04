@@ -2,11 +2,11 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { logInteraction, logError } from '@/app/utils/logger';
-import { LogEntry } from '@/app/types/logging';
+import { LogDetails } from '@/app/types/logging';
 
 // Define the shape of the logging context
 interface LoggingContextType {
-  logInteraction: (event: string, details: any) => Promise<void>;
+  logInteraction: (event: string, details: LogDetails) => Promise<void>;
   logError: (error: Error, message: string) => void;
 }
 
