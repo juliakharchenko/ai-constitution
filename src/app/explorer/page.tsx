@@ -4737,7 +4737,8 @@ Response:` : scenario;
           <MultiProviderResults
             responses={[]}
             personalityResponses={personalityResponses}
-            showPersonalities={usePersonalities}
+            //showPersonalities={usePersonalities}
+            showPersonalities={true}
             onToggleMode={(mode) => {
               setUsePersonalities(mode);
               logInteraction('toggle_personality_mode', { mode });
