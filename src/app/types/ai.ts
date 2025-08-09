@@ -134,18 +134,6 @@ export interface AIProvider {
     questions: QuestionnaireQuestion[];
   }
 
-  // export interface AnalysisReport {
-  //   summary: string;
-  //   adherenceDetails: {
-  //     principle: string;
-  //     isAdherent: boolean;
-  //     explanation: string;
-  //     score: number;
-  //   }[];
-  //   overallScore: number;
-  //   conflicts: string[];
-  //   supports: string[];
-  // }
   export interface AnalysisReport {
     summary: string;
     adherenceAnalysis: { item: string; description: string }[];
