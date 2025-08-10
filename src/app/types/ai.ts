@@ -71,6 +71,13 @@ export interface AIProvider {
     updateAPIKeys: (keys: APIKeyConfig) => void;
     updateSelectedModels: (models: SelectedModel[]) => void;
     addCustomModel: (providerId: string, modelId: string) => Promise<boolean>; // Update signature
+    generateResponse: (personality: Personality, constitution: string[], safetyDimensions: string[], scenario: string) => Promise<AIResponse[]>;
+    analyzeAlignment: (
+      response: string,
+      constitution: string[],
+      principles: { value: string; weight: number }[],
+      frameworks: { framework: string; weight: number }[]
+    ) => Promise<AnalysisReport>;
   }
 
   export interface TrustTemplate {
@@ -103,7 +110,7 @@ export interface AIProvider {
   export interface PersonalityResponse {
     modelId: string;
     personality: Personality;
-    alignment?: AlignmentAnalysis;
+    alignment?: AnalysisReport;
     safety?: {
       overallScore: number;
       dimensions: Record<string, { score: number; passes: string[]; concerns: string[] }>;
@@ -125,4 +132,25 @@ export interface AIProvider {
     description: string;
     icon: string;
     questions: QuestionnaireQuestion[];
+  }
+
+  export interface AnalysisReport {
+    summary: string;
+    adherenceAnalysis: { item: string; description: string }[];
+    nonAdherenceAnalysis: { item: string; description: string }[];
+    alignmentScore: number;
+    recommendations: string[];
+  }
+  
+  export interface SafetyAnalysisReport {
+    summary: string;
+    dimensions: {
+      dimension: string;
+      isAdherent: boolean;
+      explanation: string;
+      score: number;
+    }[];
+    overallScore: number;
+    passes: string[];
+    concerns: string[];
   }
