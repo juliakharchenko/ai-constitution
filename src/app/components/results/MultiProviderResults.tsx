@@ -2,16 +2,7 @@
 import React, { useState } from 'react';
 import { Bot, Clock, AlertCircle, CheckCircle, BarChart3, Eye } from 'lucide-react';
 import { PersonalityResponse, AnalysisReport } from '../../types/ai';
-import type { LucideIcon } from 'lucide-react';
 
-// AIPersonality type definition
-interface AIPersonality {
-  name: string;
-  icon: LucideIcon;
-  color: string;
-  bias: string;
-  description: string;
-}
 
 interface MultiProviderResultsProps {
   personalityResponses: PersonalityResponse[];
@@ -23,8 +14,6 @@ interface MultiProviderResultsProps {
 
 export const MultiProviderResults: React.FC<MultiProviderResultsProps> = ({
   personalityResponses = [],
-  showPersonalities,
-  onToggleMode,
   onAnalyzeAlignment,
   alignmentAnalyses,
 }) => {
@@ -178,7 +167,6 @@ const PersonalityResponseCard: React.FC<{
                   onClick={() => onAnalyzeAlignment(response)}
                   className="text-sm text-indigo-600 hover:text-indigo-700"
                 >
-                  Re-analyze
                 </button>
               </div>
               <AlignmentDisplay analysis={alignmentAnalysis} />
@@ -189,6 +177,8 @@ const PersonalityResponseCard: React.FC<{
     </div>
   );
 };
+
+/*can put "Reanalyze" in the button */
 
 // Component for displaying alignment analysis
 const AlignmentDisplay: React.FC<{ analysis: AnalysisReport }> = ({ analysis }) => {

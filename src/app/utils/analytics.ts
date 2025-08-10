@@ -1,4 +1,5 @@
-export const trackInteraction = async (event: string, data: Record<string, any>) => {
+export const trackInteraction = async (event: string, data: Record<string, string>) => {
+    // changed <string, any> to <string, string> if this is correct -> need to double check
     const payload = {
       event,
       data,

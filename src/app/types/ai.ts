@@ -71,7 +71,7 @@ export interface AIProvider {
     updateAPIKeys: (keys: APIKeyConfig) => void;
     updateSelectedModels: (models: SelectedModel[]) => void;
     addCustomModel: (providerId: string, modelId: string) => Promise<boolean>; // Update signature
-    generateResponse: (personality: Personality, constitution: string[], scenario: string) => Promise<AIResponse[]>;
+    generateResponse: (personality: Personality, constitution: string[], safetyDimensions: string[], scenario: string) => Promise<AIResponse[]>;
     analyzeAlignment: (
       response: string,
       constitution: string[],

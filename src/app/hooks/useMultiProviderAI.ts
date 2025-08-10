@@ -14,8 +14,8 @@ interface MultiProviderAI {
   updateAPIKeys: (apiKeys: APIKeyConfig) => void;
   updateSelectedModels: (models: SelectedModel[]) => void;
   addCustomModel: (providerId: string, modelId: string) => Promise<boolean>;
-  generateResponses: (personality: Personality, constitution: string[], scenario: string) => Promise<void>;
-  generateResponse: (personality: Personality, constitution: string[], scenario: string) => Promise<AIResponse[]>;
+  generateResponses: (personality: Personality, constitution: string[], safetyDimensions: [], scenario: string) => Promise<void>;
+  generateResponse: (personality: Personality, constitution: string[], safetyDimensions: string[], scenario: string) => Promise<AIResponse[]>;
   generateSingleResponse: (prompt: string, modelId: string, providerId: string) => Promise<string>;
   analyzeAlignment: (
     response: string,
@@ -96,6 +96,7 @@ export function useMultiProviderAI(): MultiProviderAI {
   const generateResponses = useCallback(async (
     personality: Personality,
     constitution: string[],
+    safetyDimensions: string[],
     scenario: string
   ) => {
     setIsLoading(true);
@@ -103,7 +104,7 @@ export function useMultiProviderAI(): MultiProviderAI {
     setResponses([]);
 
     try {
-      const results = await aiService.generateResponse(personality, constitution, scenario);
+      const results = await aiService.generateResponse(personality, constitution, safetyDimensions, scenario);
       setResponses(results);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -115,13 +116,14 @@ export function useMultiProviderAI(): MultiProviderAI {
   const generateResponse = useCallback(async (
     personality: Personality,
     constitution: string[],
+    safetyDimensions: string[] = [],
     scenario: string
   ): Promise<AIResponse[]> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const results = await aiService.generateResponse(personality, constitution, scenario);
+      const results = await aiService.generateResponse(personality, constitution, safetyDimensions, scenario);
       setResponses(results);
       return results;
     } catch (err) {

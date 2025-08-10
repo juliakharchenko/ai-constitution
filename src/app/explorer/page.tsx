@@ -20,7 +20,6 @@ import { HofstedeDimensions, QuestionnaireQuestion } from '../types';
 import { QuestionnaireCategory, SelectedModel, AIResponse, PersonalityResponse, ConstitutionalAI, MultiProviderAI, TrustTemplate, AnalysisReport } from '../types/ai';
 import { Tooltip } from 'react-tooltip';
 import { useLogging } from '../components/LoggingProvider/LoggingProvider';
-import { LoggingProvider } from '../components/LoggingProvider/LoggingProvider';
 
 // Define AIPersonality to align with MultiProviderResults
 interface AIPersonality {
@@ -757,7 +756,7 @@ const UnifiedAIExplorer: React.FC = () => {
 
   const generateResponseWithPersonality = async (
     personality: AIPersonality | null,
-    constitution: string[],
+    constitution: string[] = [],
     scenario: string,
     model: SelectedModel,
     safetyDimensions: string[] = [],
@@ -783,6 +782,7 @@ const UnifiedAIExplorer: React.FC = () => {
       const responses = await multiProviderAI.generateResponse(
         activePersonality,
         constitution,
+        safetyDimensions,
         scenario
       );
 
