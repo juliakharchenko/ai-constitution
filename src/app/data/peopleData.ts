@@ -85,7 +85,7 @@ export const peopleData = [
       name: 'Chirag Shah',
       role: 'ValueVet Advisor',
       description:
-        'Dr. Chirag Shah is an Associate Professor in at University of Washington. His research interests include studies of interactive information retrieval/seeking, especially in the context of online social networks and collaborations, contextual information mining, and applications of social media services for exploring critical socio-political issues. He is also interested in various theoretical and practical aspects of information as a dynamic construct, and online information propagation.',
+        'Dr. Chirag Shah is Professor in Information School (iSchool) at University of Washington (UW) in Seattle. He is also Adjunct Professor with Paul G. Allen School of Computer Science & Engineering as well as Human Centered Design & Engineering (HCDE). He is the Founding Director for InfoSeeking Lab and Founding Co-Director of Center for Responsibility in AI Systems & Experiences (RAISE). He works in the area of intelligent information access systems, focusing on task-oriented search, proactive recommendations, and conversational systems. He is also engaged in work with generative AI, specifically in information access and image classification problems. In addition to creating AI-driven information access systems that provide more personalized reactive and proactive recommendations, he is also focusing on making such systems transparent, fair, and free of biases.',
       image: 'https://assets.ischool.uw.edu/ai/chirags/pci/ShahChirag2019_250-1.jpg'
     },
     // {
