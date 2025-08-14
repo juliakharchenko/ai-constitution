@@ -11,7 +11,7 @@ import { MultiProviderResults } from '../components/results/MultiProviderResults
 import { SetupWizard } from '../components/setup/SetupWizard';
 import { PersonalitySelector } from '../components/selector/PersonalitySelector';
 import { TrustCalculator } from '../components/trustCalculator/TrustCalculator';
-import { safetyTemplates, safetyScenarios } from '../data/safetyData';
+import { safetyTemplates } from '../data/safetyData';
 import { hofstedeQuestions } from '../data/questions/hofstedeQuestions';
 import { questionnaireCategories } from '../data/questionCategories';
 import { hofstedeToPrinciples } from '../lib/hofstedeHelpers';
