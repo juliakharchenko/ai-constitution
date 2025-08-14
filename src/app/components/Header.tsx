@@ -10,7 +10,8 @@ export function Header() {
     { name: 'Scenarios', path: '/scenarios' },
     { name: 'People', path: '/people' },
     { name: 'Demo', path: '/demo' },
-    {name: 'Citations', path: '/citations'}
+    {name: 'Citations', path: '/citations'},
+    {name: 'Publications', path: '/publications'}
   ];
 
   return (

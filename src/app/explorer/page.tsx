@@ -880,14 +880,6 @@ const UnifiedAIExplorer: React.FC = () => {
     }
   };
 
-  const defaultScenarios: string[] = []; // Fallback empty array
-const selectedFrameworkId = selectedFrameworks[0]?.id;
-const defaultSafetyScenarioKey = Object.keys(safetyScenarios)[0];
-const effectiveScenarios =
-  analysisMode === 'safety' || analysisMode === 'both'
-    ? safetyScenarios[selectedFrameworkId || defaultSafetyScenarioKey] || defaultScenarios
-    : testScenarios || defaultScenarios;
-
   const handleTestScenario = async () => {
     await logInteraction('test_scenario', { scenario, models: multiProviderAI.getSelectedModels(), personalities: selectedPersonalities });
     if (!scenario.trim()) {
