@@ -30,12 +30,12 @@ export function TestScenario({
           Choose a scenario or write your own:
         </label>
         <select
-          value={testScenarios.includes(testScenario) ? testScenario : ''}
+          value={testScenarios?.includes(testScenario) ? testScenario : ''}
           onChange={(e) => setTestScenario(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-3"
         >
           <option value="">Select a scenario...</option>
-          {testScenarios.map((scenario, index) => (
+          {(testScenarios || []).map((scenario, index) => (
             <option key={index} value={scenario}>
               {scenario}
             </option>

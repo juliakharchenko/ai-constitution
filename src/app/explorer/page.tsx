@@ -11,7 +11,7 @@ import { MultiProviderResults } from '../components/results/MultiProviderResults
 import { SetupWizard } from '../components/setup/SetupWizard';
 import { PersonalitySelector } from '../components/selector/PersonalitySelector';
 import { TrustCalculator } from '../components/trustCalculator/TrustCalculator';
-import { safetyTemplates, safetyScenarios } from '../data/safetyData';
+import { safetyTemplates } from '../data/safetyData';
 import { hofstedeQuestions } from '../data/questions/hofstedeQuestions';
 import { questionnaireCategories } from '../data/questionCategories';
 import { hofstedeToPrinciples } from '../lib/hofstedeHelpers';
@@ -1168,7 +1168,7 @@ const UnifiedAIExplorer: React.FC = () => {
         <TestScenario
           testScenario={scenario}
           setTestScenario={setScenario}
-          testScenarios={analysisMode === 'safety' || analysisMode === 'both' ? safetyScenarios[selectedFrameworks[0]?.id || Object.keys(safetyScenarios)[0]] : testScenarios}
+          testScenarios={testScenarios}
           testConstitution={handleTestScenario}
           constitutionLength={constitutionalAI.constitution.length}
           isGenerating={isGeneratingPersonalities}
