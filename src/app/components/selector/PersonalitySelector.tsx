@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { Users, Check, LucideIcon, Plus } from 'lucide-react';
+import { Users, Check, LucideIcon, Plus, BookOpen, Zap, Heart, Shield, Brain } from 'lucide-react';
 
 interface PersonalityType {
   name: string;
@@ -32,13 +32,12 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
   const [customColor, setCustomColor] = useState('bg-indigo-100 text-indigo-800');
 
   const iconMap: Record<string, LucideIcon> = {
-    BookOpen: require('lucide-react').BookOpen,
-    Zap: require('lucide-react').Zap,
-    Users: require('lucide-react').Users,
-    Heart: require('lucide-react').Heart,
-    Shield: require('lucide-react').Shield,
-    Brain: require('lucide-react').Brain,
-    // Add more if needed
+    BookOpen,
+    Zap,
+    Users,
+    Heart,
+    Shield,
+    Brain,
   };
 
   const availableColors = [

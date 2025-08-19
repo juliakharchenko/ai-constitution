@@ -1025,7 +1025,7 @@ const UnifiedAIExplorer: React.FC = () => {
         <Tooltip id="analysis-mode" content="Choose whether to evaluate AI responses based on cultural values, legal/standard frameworks, or both." />
         <div className="flex space-x-4">
           {[
-            { id: 'values' as const, label: 'Cultural Values Only', icon: BookOpen },
+            { id: 'values' as const, label: 'Personal Values Only', icon: BookOpen },
             { id: 'safety' as const, label: 'Legal/Standard Frameworks Only', icon: Shield },
             { id: 'both' as const, label: 'Values + Frameworks', icon: Scale },
           ].map(({ id, label, icon: Icon }) => (
@@ -1075,7 +1075,7 @@ const UnifiedAIExplorer: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h2 className="text-2xl font-semibold mb-4 flex items-center">
               <BookOpen className="mr-2 text-indigo-600" />
-              Step 2a: Define Cultural Principles
+              Step 2a: Define Personal Values
               <Info className="w-5 h-5 ml-2 text-gray-500 cursor-pointer" data-tooltip-id="constitutional-principles" />
             </h2>
             <Tooltip id="constitutional-principles" content="Define cultural or ethical principles based on Hofstede’s cultural dimensions or manual input for AI response alignment." />

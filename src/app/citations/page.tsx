@@ -21,7 +21,7 @@ const Citations: React.FC = () => {
       <section className="bg-white rounded-lg shadow-sm p-6 mb-6">
         <h2 className="text-2xl font-semibold mb-4 flex items-center">
           <BookOpen className="mr-2 text-indigo-600" />
-          1. Cultural Values and Hofstede’s Cultural Dimensions
+          1. Personal Values and Hofstede’s Cultural Dimensions
         </h2>
         <p className="text-gray-700 mb-4">
           The application uses Hofstede’s cultural dimensions to define principles via a questionnaire or manual input, enabling evaluation of AI responses against cultural values.
