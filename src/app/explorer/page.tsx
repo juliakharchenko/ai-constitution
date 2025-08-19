@@ -661,7 +661,8 @@ const UnifiedAIExplorer: React.FC = () => {
     logInteraction('page_load', { page: 'UnifiedAIExplorer', origin: window.location.href });
   }, [logInteraction]);
 
-  const aiPersonalities: AIPersonality[] = [
+  //const aiPersonalities: AIPersonality[] = [
+  const [aiPersonalities, setAiPersonalities] = useState<AIPersonality[]>([
     {
       name: 'No Personality',
       icon: BookOpen,
@@ -718,7 +719,7 @@ const UnifiedAIExplorer: React.FC = () => {
       description: 'Assumes positive outcomes and human potential for growth',
       traits: 'positive, hopeful, growth-oriented, solution-focused',
     },
-  ];
+  ]);
 
   const trustTemplates: Record<string, TrustTemplate> = {
     strict: {
@@ -1161,6 +1162,7 @@ const UnifiedAIExplorer: React.FC = () => {
             setSelectedPersonalities(personalities);
             logInteraction('select_personalities', { personalities });
           }}
+          setAiPersonalities={setAiPersonalities}
         />
       </div>
 
