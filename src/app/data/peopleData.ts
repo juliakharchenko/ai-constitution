@@ -4,7 +4,7 @@ export const peopleData = [
       role: 'ValueVet Developer',
       description:
         'Julia Kharchenko is a computer scientist and researcher passionate about building technology that is smarter, fairer, and more accessible. She completed a B.S. in Computer Science, a B.S. in Informatics, and an M.S. in Computer Science at the University of Washington.\n Her research spans large language model evaluation, human–AI interaction, and accessible computing. Julia has led studies on how LLMs adapt to cultural contexts, with work published at venues such as KDD 2025, and developed benchmarks for detecting linguistic biases in hiring evaluations—both available on arXiv.',
-      image: 'https://media.licdn.com/dms/image/v2/D5603AQEE0v0oAm_NtQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1700440776466?e=1757548800&v=beta&t=qCuwJISPMxhhBZJi-lsycIqqhgGbVWKFDuBsskEAOfE',
+      image: 'https://media.licdn.com/dms/image/v2/D5603AQEE0v0oAm_NtQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1700440776466?e=2147483647&v=beta&t=vnspUlme3FrblDCysRtPoAHH_ZleJKovxeTabjg_660',
       publications: [
         {
           title: 'How Well Do LLMs Represent Values Across Cultures? Empirical Analysis of LLM Responses Based on Hofstede Cultural Dimensions',
