@@ -85,22 +85,22 @@ export const AI_PROVIDERS: AIProvider[] = [
       setupInstructions: 'Get your API key from https://huggingface.co/settings/tokens',
       models: [
         {
-          id: 'microsoft/DialoGPT-large',
-          name: 'DialoGPT Large',
+          id: 'microsoft/Phi-3-mini-4k-instruct',
+          name: 'Phi-3 Mini Instruct',
           provider: 'huggingface',
-          maxTokens: 1024,
-          supportsSystemPrompts: false
+          maxTokens: 2048,
+          supportsSystemPrompts: true
         },
         {
-          id: 'google/flan-t5-large',
-          name: 'Flan-T5 Large',
+          id: 'HuggingFaceH4/zephyr-7b-beta',
+          name: 'Zephyr 7B Beta',
           provider: 'huggingface',
-          maxTokens: 512,
-          supportsSystemPrompts: false
+          maxTokens: 2048,
+          supportsSystemPrompts: true
         },
         {
-          id: 'meta-llama/Llama-2-7b-chat-hf',
-          name: 'Llama 2 7B Chat',
+          id: 'mistralai/Mistral-7B-Instruct-v0.2',
+          name: 'Mistral 7B Instruct',
           provider: 'huggingface',
           maxTokens: 2048,
           supportsSystemPrompts: true

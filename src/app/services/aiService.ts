@@ -269,6 +269,39 @@ Your response should:
     userPrompt: string,
     supportsSystemPrompts: boolean
   ): Promise<string> {
+    // Try chat completions endpoint first (works for instruct/chat models)
+    if (supportsSystemPrompts) {
+      try {
+        const chatResponse = await fetch(`https://api-inference.huggingface.co/models/${modelId}/v1/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: modelId,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt },
+            ],
+            max_tokens: 512,
+            temperature: 0.7,
+          }),
+        });
+
+        if (chatResponse.ok) {
+          const chatData = await chatResponse.json();
+          const content = chatData.choices?.[0]?.message?.content;
+          if (content) {
+            return content;
+          }
+        }
+      } catch {
+        // Fall through to text generation endpoint
+      }
+    }
+
+    // Fallback: text generation endpoint for non-chat models
     const prompt = supportsSystemPrompts
       ? `${systemPrompt}\n\nUser: ${userPrompt}\nAssistant:`
       : userPrompt;
@@ -320,8 +353,12 @@ Your response should:
     }
 
     // Select the first available configured provider for analysis
-    const provider = configuredProviders[0];
-    const model = provider.models[0]; // Use the first model for simplicity
+    // Skip Hugging Face for analysis — free-tier models can't produce structured analysis reliably
+    const provider = configuredProviders.find(p => p.id !== 'huggingface') || null;
+    if (!provider) {
+      return this.fallbackHeuristicAnalysis(response, principles, userValues, responsibleAIFrameworks);
+    }
+    const model = provider.models[0];
     const apiKey = this.apiKeys[provider.id];
 
     if (!apiKey) {

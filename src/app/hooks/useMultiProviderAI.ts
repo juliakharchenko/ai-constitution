@@ -67,6 +67,7 @@ export function useMultiProviderAI(): MultiProviderAI {
     }
 
     try {
+      await aiService.addCustomModel(providerId, modelId);
       setProviders((prev) =>
         prev.map((provider) =>
           provider.id === providerId
