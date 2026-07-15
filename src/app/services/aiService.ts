@@ -262,83 +262,32 @@ Your response should:
     return response.text().trim();
   }
 
-  private async callHuggingFace(
+  async function callHuggingFace(
     apiKey: string,
     modelId: string,
-    systemPrompt: string,
-    userPrompt: string,
-    supportsSystemPrompts: boolean
+    prompt: string
   ): Promise<string> {
-    // Try chat completions endpoint first (works for instruct/chat models)
-    if (supportsSystemPrompts) {
-      try {
-        const chatResponse = await fetch(`https://api-inference.huggingface.co/models/${modelId}/v1/chat/completions`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: modelId,
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: userPrompt },
-            ],
-            max_tokens: 512,
-            temperature: 0.7,
-          }),
-        });
 
-        if (chatResponse.ok) {
-          const chatData = await chatResponse.json();
-          const content = chatData.choices?.[0]?.message?.content;
-          if (content) {
-            return content;
-          }
-        }
-      } catch {
-        // Fall through to text generation endpoint
-      }
-    }
-
-    // Fallback: text generation endpoint for non-chat models
-    const prompt = supportsSystemPrompts
-      ? `${systemPrompt}\n\nUser: ${userPrompt}\nAssistant:`
-      : userPrompt;
-
-    const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
-      method: 'POST',
+    const res = await fetch("/api/chat", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        inputs: prompt,
-        parameters: {
-          max_new_tokens: 512,
-          temperature: 0.7,
-          top_p: 0.9,
-          do_sample: true,
-        },
+        provider: "huggingface",
+        apiKey,
+        model: modelId,
+        prompt,
       }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Hugging Face API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
+    if (!res.ok) {
+      throw new Error(await res.text());
     }
 
-    const data = await response.json();
+    const data = await res.json();
 
-    if (Array.isArray(data) && data[0]?.generated_text) {
-      let result = data[0].generated_text;
-      if (result.includes('Assistant:')) {
-        result = result.split('Assistant:')[1]?.trim() || result;
-      }
-      return result;
-    }
-
-    throw new Error('Unexpected response format from Hugging Face');
+    return data.text;
   }
 
   async analyzeAlignment(
