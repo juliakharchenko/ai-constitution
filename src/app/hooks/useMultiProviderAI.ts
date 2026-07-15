@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'react';
 import { aiService } from '../services/aiService';
 import type { AIProvider, AIModel, APIKeyConfig, SelectedModel, AIResponse, Personality, AnalysisReport } from '../types/ai';
-import { InferenceClient } from "@huggingface/inference";
+//import { InferenceClient } from "@huggingface/inference";
 
 interface MultiProviderAI {
   providers: AIProvider[];
@@ -322,22 +322,30 @@ async function callGemini(apiKey: string, modelId: string, prompt: string): Prom
   return data.candidates[0]?.content?.parts[0]?.text || 'No response generated';
 }
 
-async function callHuggingFace(apiKey: string, modelId: string, prompt: string): Promise<string> {
-  const client = new InferenceClient(apiKey);
-  const chatCompletion = await client.chatCompletion({
-    model: modelId,
-    messages: [{ role: 'user', content: prompt }],
-    parameters: {
-      max_new_tokens: 256,
-      temperature: 0.7,
-      top_p: 0.95,
-      do_sample: true,
+async function callHuggingFace(
+  apiKey: string,
+  modelId: string,
+  prompt: string
+): Promise<string> {
+
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      provider: "huggingface",
+      apiKey,
+      model: modelId,
+      prompt,
+    }),
   });
 
-  if (!chatCompletion.choices?.[0]?.message?.content) {
-    throw new Error('Unexpected response format from Hugging Face chatCompletion.');
+  if (!res.ok) {
+    throw new Error(await res.text());
   }
 
-  return chatCompletion.choices[0].message.content;
+  const data = await res.json();
+
+  return data.text;
 }
