@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'react';
 import { aiService } from '../services/aiService';
 import type { AIProvider, AIModel, APIKeyConfig, SelectedModel, AIResponse, Personality, AnalysisReport } from '../types/ai';
-import { InferenceClient } from "@huggingface/inference";
+//import { InferenceClient } from "@huggingface/inference";
 
 interface MultiProviderAI {
   providers: AIProvider[];
