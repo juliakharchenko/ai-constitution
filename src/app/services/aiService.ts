@@ -272,7 +272,7 @@ Your response should:
     // Try chat completions endpoint first (works for instruct/chat models)
     if (supportsSystemPrompts) {
       try {
-        const chatResponse = await fetch(`https://api-inference.huggingface.co/models/${modelId}/v1/chat/completions`, {
+        const chatResponse = await fetch(`https://router.huggingface.co/hf-inference/models/${modelId}/v1/chat/completions`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
@@ -288,7 +288,7 @@ Your response should:
             temperature: 0.7,
           }),
         });
-
+  
         if (chatResponse.ok) {
           const chatData = await chatResponse.json();
           const content = chatData.choices?.[0]?.message?.content;
@@ -300,13 +300,13 @@ Your response should:
         // Fall through to text generation endpoint
       }
     }
-
+  
     // Fallback: text generation endpoint for non-chat models
     const prompt = supportsSystemPrompts
       ? `${systemPrompt}\n\nUser: ${userPrompt}\nAssistant:`
       : userPrompt;
-
-    const response = await fetch(`https://api-inference.huggingface.co/models/${modelId}`, {
+  
+    const response = await fetch(`https://router.huggingface.co/hf-inference/models/${modelId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -322,14 +322,13 @@ Your response should:
         },
       }),
     });
-
+  
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(`Hugging Face API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
     }
-
+  
     const data = await response.json();
-
     if (Array.isArray(data) && data[0]?.generated_text) {
       let result = data[0].generated_text;
       if (result.includes('Assistant:')) {
@@ -337,7 +336,7 @@ Your response should:
       }
       return result;
     }
-
+  
     throw new Error('Unexpected response format from Hugging Face');
   }
 
