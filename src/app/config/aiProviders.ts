@@ -56,26 +56,15 @@ export const AI_PROVIDERS: AIProvider[] = [
     },
     {
       id: 'google',
-      name: 'Google Gemini',
-      requiresApiKey: true,
-      apiKeyPlaceholder: 'AIza...',
-      setupInstructions: 'Get your API key from https://makersuite.google.com/app/apikey',
+      name: 'Google',
       models: [
-        {
-          id: 'gemini-1.5-flash',
-          name: 'Gemini 1.5 Flash',
-          provider: 'google',
-          maxTokens: 1024,
-          supportsSystemPrompts: true
-        },
-        {
-          id: 'gemini-1.5-pro',
-          name: 'Gemini 1.5 Pro',
-          provider: 'google',
-          maxTokens: 2048,
-          supportsSystemPrompts: true
-        }
-      ]
+        { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', provider: 'google', maxTokens: 8192, supportsSystemPrompts: true },
+        { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', provider: 'google', maxTokens: 8192, supportsSystemPrompts: true },
+        { id: 'gemini-3.5-flash', name: 'Gemini 3.5 Flash', provider: 'google', maxTokens: 8192, supportsSystemPrompts: true },
+        { id: 'gemini-3.6-flash', name: 'Gemini 3.6 Flash', provider: 'google', maxTokens: 8192, supportsSystemPrompts: true },
+        { id: 'gemini-3.7-flash', name: 'Gemini 3.7 Flash', provider: 'google', maxTokens: 8192, supportsSystemPrompts: true },
+        { id: 'gemini-3.8-flash', name: 'Gemini 3.8 Flash', provider: 'google', maxTokens: 8192, supportsSystemPrompts: true },
+      ],
     },
     {
       id: 'huggingface',
