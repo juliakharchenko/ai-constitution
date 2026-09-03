@@ -272,7 +272,7 @@ Your response should:
     // Try chat completions endpoint first (works for instruct/chat models)
     if (supportsSystemPrompts) {
       try {
-        const chatResponse = await fetch(`https://api-inference.huggingface.co/models/${modelId}/v1/chat/completions`, {
+        const chatResponse = await fetch(`https://router.huggingface.co/v1/chat/completions`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
